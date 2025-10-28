@@ -149,7 +149,7 @@ L’application web offre :
 
 * Un affichage des statistiques globales
 
-* Une visualisation graphique interactive du graphe d’appels avec Cytoscape.js
+* Une visualisation graphique interactive du graphe d’appels, couplage,... avec Cytoscape.js
 ---
 
 ## 🧩 Auteur
