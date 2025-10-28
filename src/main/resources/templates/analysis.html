@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Résultats de l'analyse</title>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.25.1/cytoscape.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.3.2/cytoscape-dagre.min.js"></script>
+    <script>
+        // Enregistrer le layout dagre
+        if (typeof cytoscape !== 'undefined' && typeof cytoscapeDagre !== 'undefined') {
+            cytoscape.use(cytoscapeDagre);
+        }
+    </script>
+
+    <style>
+   		.nav { display:flex; gap:12px; margin-bottom:20px; }
+        .btn { padding:8px 12px; background:#4cc9f0; color:#fff; text-decoration:none; border-radius:6px; }
+        .btn:hover { background:#2a4b8d; }
+        .tab { display:flex;overflow: hidden; border-bottom: 1px solid #ccc; background-color: #f1f1f1; margin: 20px auto; width: 100%; }
+        .tab button { background-color: #4cc9f0; float: left; border: none; outline: none; cursor: pointer; padding: 12px 20px; transition: 0.3s; font-size: 16px; width: 400px; margin:30px;}
+        .tab button:hover { background-color: #ddd; }
+        .tab button.active { background-color: #2a4b8d; color: white; }
+        .tabcontent { display: none; padding: 20px; border: 1px solid #ccc; border-top: none; width: 90%; margin: auto; background-color: #fff; border-radius: 10px; }
+        table { width: 100%; border-collapse: collapse; }
+        table, th, td { border: 1px solid #ccc; }
+        th, td { padding: 8px; text-align: left; }
+        #cy { width: 100%; height: 700px; border: 1px solid #ccc; margin: 20px auto;overflow: auto; }
+        .legend { display: flex; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
+        .legend div { margin: 0 10px; padding: 5px 10px; border-radius: 5px; color: white; font-weight: bold; }
+        .error { color: red; text-align: center; margin: 20px; font-weight: bold; }
+        /* Nouveaux styles pour grouper les métriques */
+        .metric-group { 
+            display: flex; 
+            justify-content: space-around; 
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .metric-group > div {
+            width: 48%; /* Utiliser un peu moins de 50% pour l'espace */
+            min-width: 300px;
+        }
+
+        /* NOUVEAU STYLE pour aligner le titre et le formulaire */
+        .method-threshold-container {
+            display: flex;
+            align-items: center; /* Alignement vertical */
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        .method-threshold-container h3 {
+            margin: 0;
+            padding-right: 15px;
+        }
+        .method-threshold-container button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Résultats de l'analyse Avec Spoon</h1>
+
+<div th:if="${error}" class="error">
+    <p th:text="${error}"></p>
+</div>
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event,'CouplageClasse')">Couplage entre Classe </button>
+    <button class="tablinks" onclick="openTab(event,'CouplageGraphe')">Graphe Couplage </button>
+    <button class="tablinks" onclick="openTab(event,'Module')">Identification des modules</button>
+    <button class="tablinks" onclick="openTab(event,'Dendrogram')" >Dendrogramme</button>
+ 
+</div>
+<a href="/" style="display: block; text-align: center; margin-top: 20px;">&#8592; Retour à l'accueil</a>
+
+
+
+<div id="CouplageClasse" class="tabcontent">
+
+    <h2>Analyse du couplage entre les classes</h2>
+
+    <div class="metric-group">
+        <!-- Formulaire -->
+        <div style="flex:1;">
+            <h3>Calcul du couplage entre deux classes</h3>
+            <form th:action="@{/analyze}" method="post">
+			    <input type="hidden" name="path" th:value="${projectPath}" />
+			    <input type="hidden" name="activeTab" value="CouplageClasse" />
+			    <div class="metric-group">
+			    	<label>Classe A :</label>
+				    <select name="classA" required>
+				        <option th:each="cls : ${allClasses}" th:value="${cls}" th:text="${cls}"></option>
+				    </select>
+			    </div>
+			    
+			   <div class="metric-group">
+			   		<label>Classe B :</label>
+				    <select name="classB" required>
+				        <option th:each="cls : ${allClasses}" th:value="${cls}" th:text="${cls}"></option>
+				    </select>
+			   </div>
+			    
+			
+			    <button type="submit" style=" margin-top:2%;margin-left:1%;margin-right:1%;">Calculer le couplage entre A et B</button>
+			</form>
+
+        </div>
+
+        <!-- Résultat -->
+        <div style="flex:1;">
+            <h3>Résultat du couplage dirigé</h3>
+            <div>
+            	<p>
+                <b>Classe <span th:text="${classA != null ? classA : 'A'}">A</span> → 
+                    <span th:text="${classB != null ? classB : 'B'}">B</span> :
+                </b> 
+                <span th:text="${couplingResultAB != null ? couplingResultAB : 'Non calculé'}"></span>
+	            </p>
+	            <p>
+	                <b>Classe <span th:text="${classB != null ? classB : 'B'}">B</span> → 
+	                    <span th:text="${classA != null ? classA : 'A'}">A</span> :
+	                </b> 
+	                <span th:text="${couplingResultBA != null ? couplingResultBA : 'Non calculé'}"></span>
+	            </p>
+            
+            </div>
+         </div>
+    </div>
+
+    <h2>Tableau des couplages entre toutes les classes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Classe Source</th>
+                <th>Classe Cible</th>
+                <th>Valeur du Couplage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="entry : ${couplingMatrix}">
+                <td th:text="${entry.source}"></td>
+                <td th:text="${entry.target}"></td>
+                <td th:text="${#numbers.formatDecimal(entry.value, 1, 5)}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+  
+
+</div>
+
+<div id="CouplageGraphe" class="tabcontent">
+
+	  <h2>Graphe de couplage pondéré</h2>
+    <div class="legend">
+        <div style="background-color:#FFA500">Classe</div>
+        <div style="background-color:#2a9d8f">Lien de couplage pondéré</div>
+    </div>
+    <div id="cyCoupling" style="width:100%; height:700px; border:1px solid #ccc; margin-top:20px;"></div>
+
+</div>
+
+
+
+<div id="Module" class="tabcontent">
+    <h2>Identification des modules</h2>
+    <form action="/analyze" method="post" style="margin-bottom: 20px;">
+    	<input type="hidden" name="activeTab" value="Module" />
+        <input type="hidden" name="path" th:value="${projectPath}" />
+        <label>Seuil de couplage (entre 0 et 1) :</label>
+        <input type="number" name="threshold" step="0.001" min="0" max="1" th:value="${threshold}" />
+        <button type="submit">Raffraîchir</button>
+    </form>
+
+    <div th:if="${modules}">
+        <h3>Modules détectés :</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Classes contenues</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="module, iterStat : ${modules}">
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td th:text="${#strings.arrayJoin(module.toArray(), ', ')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${modules == null or modules.isEmpty()}">
+        <p style="color:gray;">Aucun module détecté. Essayez un seuil plus bas.</p>
+    </div>
+  
+</div>
+
+<div id="Dendrogram" class="tabcontent">
+    <h2>Visualisation du dendrogramme hiérarchique</h2>
+    <div id="cyDendrogram" 
+     style="width:100%; height:700px; border:1px solid #ccc; background:#232329;">
+   </div>
+
+</div>
+
+
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+var elements = /*[[${graphJson}]]*/ '[]';
+try { elements = JSON.parse(elements); } catch(e) { console.error(e); elements = []; }
+
+
+
+var cy = null;
+
+function initGraph() {
+    if(cy !== null || elements.length === 0) return;
+
+    cy = cytoscape({
+        container: document.getElementById('cy'),
+        elements: elements,
+        style: [
+            {
+                selector: 'node',
+                style: {
+                    'label': 'data(label)',
+                    'text-valign': 'center',
+                    'text-halign': 'center',
+                    'width': 'auto',
+                    'height': 'auto',
+                    'padding': '10px',
+                    'text-wrap': 'wrap',
+                    'font-size': '12px',
+                    'background-color': function(ele) {
+                        return ele.data('type') === 'CLASS' ? '#FFA500' :
+                               ele.data('type') === 'METHOD' ? '#FFB6C1' :
+                               '#9370db';
+                    },
+                    'color':'#fff'
+                }
+            },
+            {
+                selector: 'edge',
+                style: {
+                    'width': 2,
+                    'line-color': '#ccc',
+                    'target-arrow-color': '#ccc',
+                    'target-arrow-shape': 'triangle',
+                    'curve-style': 'bezier'
+                }
+            }
+        ],
+        layout: { 
+            name: 'dagre',
+            rankDir: 'TB', 
+            animate: true 
+        }
+    });
+
+    cy.layout({ name: 'dagre' }).run();
+}
+
+
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) tabcontent[i].style.display = "none";
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) tablinks[i].classList.remove("active");
+
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.classList.add("active");
+
+    // Sauvegarder l'onglet actif
+    localStorage.setItem("activeTab", tabName);
+
+    if(tabName === 'Graph') setTimeout(initGraph, 100);
+    if(tabName === 'CouplageGraphe') setTimeout(initCouplingGraph, 100);
+}
+
+// Restaurer l’onglet actif après rechargement
+window.addEventListener('DOMContentLoaded', () => {
+    const savedTab = localStorage.getItem("activeTab") || "CouplageClasse";
+    const tabButton = Array.from(document.getElementsByClassName("tablinks"))
+        .find(btn => btn.textContent.includes(savedTab) || btn.getAttribute("onclick")?.includes(savedTab));
+
+    if (tabButton) {
+        tabButton.click();
+    } else {
+        document.getElementById("defaultOpen").click();
+    }
+});
+
+
+/**
+ * Gère la soumission du formulaire lorsque le bouton est cliqué.
+ * Valide la valeur et soumet le formulaire.
+ */
+function handleXMethodsSubmit() {
+    const inputElement = document.getElementById('xMethodsInput');
+    let value = parseInt(inputElement.value);
+    
+    // Si non numérique ou inférieur à 1, utilise la valeur par défaut 2.
+    if (isNaN(value) || value < 1) {
+        value = 2;
+    }
+    
+    inputElement.value = value; // Assurer que le champ affiche la valeur validée
+    
+    // Soumission du formulaire pour relancer l'analyse avec le nouveau seuil
+    document.getElementById('xMethodsForm').submit();
+}
+
+// Ouvrir l'onglet par défaut au chargement
+window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById("defaultOpen").click();
+});
+/*]]>*/
+</script>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+// ----- Données du graphe de couplage -----
+var couplingGraph = /*[[${couplingGraphJson}]]*/ '[]';
+try { couplingGraph = JSON.parse(couplingGraph); } catch(e) { console.error(e); couplingGraph = []; }
+
+var cyCoupling = null;
+
+function initCouplingGraph() {
+    if(cyCoupling !== null || couplingGraph.length === 0) return;
+
+    cyCoupling = cytoscape({
+        container: document.getElementById('cyCoupling'),
+        elements: couplingGraph,
+        style: [
+            {
+                selector: 'node',
+                style: {
+                    'label': 'data(label)',
+                    'text-valign': 'center',
+                    'color': '#fff',
+                    'background-color': '#FFA500',
+                    'width': 'label',
+                    'height': 'label',
+                    'padding': '10px',
+                    'font-size': '12px'
+                }
+            },
+            {
+                selector: 'edge',
+                style: {
+                    'width': 'mapData(weight, 0, 1, 1, 10)', // plus le poids est élevé, plus l’arête est épaisse
+                    'line-color': 'mapData(weight, 0, 1, #d3d3d3, #2a9d8f)',
+                    'target-arrow-shape': 'triangle',
+                    'target-arrow-color': '#2a9d8f',
+                    'curve-style': 'bezier',
+                    'label': function(ele) {
+                        const w = ele.data('weight');
+                        return w > 0 ? w.toFixed(3) : '';
+                    },
+                    'font-size': '10px',
+                    'color': '#2a9d8f',
+                    'text-rotation': 'autorotate'
+                }
+            }
+        ],
+        layout: {
+            name: 'dagre',
+            rankDir: 'LR',
+            animate: true
+        }
+    });
+
+    cyCoupling.layout({ name: 'dagre', rankDir: 'LR' }).run();
+}
+
+// Quand on ouvre l’onglet Couplage
+document.querySelectorAll('.tablinks').forEach(btn => {
+    btn.addEventListener('click', function() {
+        if (this.textContent.includes('Couplage')) {
+            setTimeout(initCouplingGraph, 100);
+        }
+    });
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('Couplage').style.display === 'block') {
+        setTimeout(initCouplingGraph, 200);
+    }
+});
+/*]]>*/
+</script>
+<script>
+window.addEventListener("load", function() {
+    const selectA = document.querySelector('select[name="classA"]');
+    const selectB = document.querySelector('select[name="classB"]');
+
+    if (!selectA || !selectB) return; 
+
+    function updateSelectB() {
+        const selectedA = selectA.value;
+        Array.from(selectB.options).forEach(opt => {
+            opt.disabled = (opt.value === selectedA);
+        });
+    }
+
+    function updateSelectA() {
+        const selectedB = selectB.value;
+        Array.from(selectA.options).forEach(opt => {
+            opt.disabled = (opt.value === selectedB);
+        });
+    }
+
+    // Réappliquer la règle si l’utilisateur recharge la page avec un choix déjà fait
+    updateSelectB();
+    updateSelectA();
+
+    // Mettre à jour dynamiquement les listes
+    selectA.addEventListener("change", updateSelectB);
+    selectB.addEventListener("change", updateSelectA);
+});
+</script>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+window.addEventListener('DOMContentLoaded', () => {
+    const savedTab = /*[[${activeTab}]]*/ 'CouplageClasse';
+    const tabButton = Array.from(document.getElementsByClassName("tablinks"))
+        .find(btn => btn.getAttribute("onclick")?.includes(savedTab));
+
+    if (tabButton) {
+        tabButton.click();
+    } else {
+        document.getElementById("defaultOpen").click();
+    }
+});
+/*]]>*/
+</script>
+<!-- language: html -->
+<script th:inline="javascript">
+/*<![CDATA[*/
+var dendrogramData = /*[[${dendrogramJson}]]*/ '[]';
+try { dendrogramData = JSON.parse(dendrogramData); } catch(e) { console.error(e); dendrogramData = []; }
+
+function initDendrogram() {
+    if (dendrogramData.length === 0) return;
+    if (window._cyDendrogramInited) return; // éviter double initialisation
+    window._cyDendrogramInited = true;
+
+    var cyD = cytoscape({
+        container: document.getElementById('cyDendrogram'),
+        elements: dendrogramData,
+        style: [
+            {
+                selector: 'node',
+                style: {
+                    'label': 'data(label)',
+                    'font-size': 12,
+                    'text-valign': 'bottom',
+                    'text-margin-y': 6,
+                    'background-color': '#FFA500',
+                    'color': '#FFA500',
+                    'width': 8,
+                    'height': 8,
+                    'shape': 'ellipse'
+                }
+            },
+            {
+                selector: 'edge',
+                style: {
+                    'width': 3,
+                    'line-color': '#1e90ff',
+                    'target-arrow-shape': 'none',
+                    'curve-style': 'bezier',
+                    'control-point-step-size': 40,
+                    'control-point-weight': 0.5
+                }
+            }
+        ],
+        layout: {
+            name: 'dagre',
+            rankDir: 'TB',    /* top-to-bottom : feuilles en bas */
+            nodeSep: 120,               // espacement horizontal entre nœuds
+            edgeSep: 10,                // espacement entre arêtes parallèles
+            rankSep: 140,               // espacement vertical entre niveaux
+            spacingFactor: 1.6, 
+            animate: true
+        },
+        wheelSensitivity: 0.2
+    });
+
+    // Ajuster la vue pour bien cadrer
+    cyD.ready(() => {
+        cyD.fit(20);
+    });
+}
+
+// déclencheur quand on ouvre l'onglet Dendrogramme
+document.querySelectorAll('.tablinks').forEach(btn => {
+    btn.addEventListener('click', function() {
+        if (this.textContent.includes('Dendrogram')) {
+            setTimeout(initDendrogram, 100);
+        }
+    });
+});
+/*]]>*/
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2b343ffb-4a4f-4cc3-9aa4-6f419ffec56f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/HAI913I_TP1_Paert2_Spoon/HAI913I_TP1_Paert2_Spoon/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/maven/HAI913I_TP1_Paert2_Spoon/HAI913I_TP1_Paert2_Spoon/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/HAI913I_TP1_Paert2_Spoon/HAI913I_TP1_Paert2_Spoon/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/maven/HAI913I_TP1_Paert2_Spoon/HAI913I_TP1_Paert2_Spoon/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/SpoonAnalyzerGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/SpoonAnalyzerGUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/visiteurs/AttributePerClassAVGVisitorSpoon.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/visiteurs/AttributePerClassAVGVisitorSpoon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/visiteurs/ClassCounterVisitorSpoon.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/visiteurs/ClassCounterVisitorSpoon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/visiteurs/CombinedCategoryVisitorSpoon.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/visiteurs/CombinedCategoryVisitorSpoon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/visiteurs/LineCodeCounterVisitorSpoon.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/visiteurs/LineCodeCounterVisitorSpoon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/visiteurs/LinePerMethodAVGVisitorSpoon.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/visiteurs/LinePerMethodAVGVisitorSpoon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/visiteurs/LongestMethodsPerClassVisitorSpoon.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/visiteurs/LongestMethodsPerClassVisitorSpoon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/visiteurs/MaxParametersCounterVisitorSpoon.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/visiteurs/MaxParametersCounterVisitorSpoon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/visiteurs/MethodCounterVisitorSpoon.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/visiteurs/MethodCounterVisitorSpoon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/visiteurs/MethodPerClassAVGVisitorSpoon.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/visiteurs/MethodPerClassAVGVisitorSpoon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/visiteurs/PackageCounterVisitorSpoon.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/visiteurs/PackageCounterVisitorSpoon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/visiteurs/PlusXMethodCounterVisitorSpoon.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/visiteurs/PlusXMethodCounterVisitorSpoon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/visiteurs/TopAttributeClassVisitorSpoon.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/visiteurs/TopAttributeClassVisitorSpoon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/visiteurs/TopMethodClassVisitorSpoon.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/visiteurs/TopMethodClassVisitorSpoon.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="34hJM9Sj1qcbZvA5TooQsld9Amz" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/njap/eclipse-workspace/HAI913I_TP1_Part2_Spoon",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
+        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-IU-252.25557.131" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2b343ffb-4a4f-4cc3-9aa4-6f419ffec56f" name="Changes" comment="" />
+      <created>1761659819555</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761659819555</updated>
+      <workItem from="1761659820911" duration="591000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
