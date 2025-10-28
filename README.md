@@ -1,6 +1,6 @@
 
 ```markdown
-# 🧩 HAI913I_TP1_Part2_Spoon — Analyseur de Code Java (Console, JavaFX, Swing)
+# 🧩 HAI913I_TP1_Part2_Spoon — Analyseur de Code Java (Console, JavaFX, Swing,Web)
 
 ## 📖 Description du projet
 Ce projet propose un analyseur statique de code Java basé sur Eclipse.  
@@ -8,6 +8,7 @@ Il permet de parcourir, analyser et visualiser la structure interne d’un proje
 
 - **Mode console** pour tester le graphe ou les statistiques analytiques en renseignant le chemin du projet via le code source.
 - **Interface JavaFX et Swing** pour une visualisation interactive sur bureau.
+- **Application web Spring Boot + Thymeleaf** pour une utilisation moderne depuis un navigateur.
 
 ---
 
