@@ -1,4 +1,3 @@
-Voici le code Markdown (.md) correspondant à ton projet Spoon :
 
 ```markdown
 # 🧩 HAI913I_TP1_Part2_Spoon — Analyseur de Code Java (Console, JavaFX, Swing)
